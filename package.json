@@ -17,6 +17,7 @@
   "dependencies": {
     "express": "^4.21.0",
     "mongoose": "^8.7.0",
-    "project-backend": "file:"
+    "project-backend": "file:",
+    "validator": "^13.12.0"
   }
 }
