@@ -5,7 +5,7 @@ const validateSignUpData = (req) => {
   const { firstName, lastName, emailId, password, gender} = req.body;
   if(!firstName || !lastName){
     throw new Error("Name is not valid!");
-  }else if(firstName.length<4 || firstName.length>50){
+  }else if(firstName.length<=2 || firstName.length>50){
     throw new Error("First Name should be 4-50 Characters long");
   }else if(!validator.isEmail(emailId)){
     throw new Error("Email Id is not correct!");
@@ -17,7 +17,7 @@ const validateSignUpData = (req) => {
 };
 
 const validateLoginData=(req)=>{
-    const {emailId,password}=req.body;
+    const {emailId}=req.body;
     if(!validator.isEmail(emailId)){
         throw new Error("Email Id is not Valid!");
     }

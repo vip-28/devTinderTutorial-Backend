@@ -47,6 +47,7 @@ const userSchema = new mongoose.Schema({
   },
   photoUrl:{
     type:String,
+    default:"https://www.pngkey.com/png/detail/230-2301779_best-classified-apps-default-user-profile.png",
     validate(value){
         if(!validator.isURL(value)){
             throw new Error("Invalid Photo URL: "+ value);
