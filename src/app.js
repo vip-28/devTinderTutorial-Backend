@@ -2,13 +2,43 @@ const express = require("express");
 const connectDB = require("./config/database");
 const app = express();
 const User = require("./models/user");
+const {validateSignUpData,validateLoginData}= require("./utils/validation");
+const bcrypt= require("bcrypt");
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  const user = new User(req.body);
+
+
+
+//encrypt the password
+const {password, firstName, lastName, emailId, gender}=req.body;
+
+const passwordHash= await bcrypt.hash(password, 10);
+
+
+//creating a new instance of the user model
+
+
+
+
+  const user = new User({
+    firstName,
+    lastName,
+    emailId,
+    gender,
+    password:passwordHash,
+   
+  });
 
   try {
+
+
+   //validation of data
+validateSignUpData(req);
+
+
+
     await user.save();
     res.send("User Added successfully");
   } catch (err) {
@@ -16,13 +46,38 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post("/login", async(req,res)=>{
+ 
+
+
+  try{
+    const {emailId, password}= req.body;
+    validateLoginData(req);
+    const user= await User.findOne({emailId:emailId});
+if(!user){
+  throw new Error("Invalid Credentials!");
+}
+    const isPasswordValid=await bcrypt.compare(password, user?.password);
+
+    if(isPasswordValid){
+      res.send("User Login Successful!");
+    }else{
+      throw new Error("Invalid Credentials!");
+    }
+
+
+  }catch(err){
+    res.status(400).send("ERROR: "+err.message);
+  }
+})
+
 app.get("/user", async (req, res) => {
   const userEmail = req.body.emailId;
   try {
     const user = await User.find({
       emailId: userEmail,
     });
-
+//user is an ARRAY
     if (user.length === 0) {
       res.status(404).send("User not found");
     } else {
@@ -51,7 +106,7 @@ app.delete("/user", async(req,res)=>{
         });
         res.send(user+"Deleted successfully");
     }catch(err){
-        res.staus(404).send("Error occured");
+        res.status(404).send("Error occured");
     }
 })
 
