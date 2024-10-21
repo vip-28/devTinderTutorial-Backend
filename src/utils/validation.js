@@ -23,6 +23,39 @@ const validateLoginData=(req)=>{
     }
 }
 
+const validateProfileEditData= (req)=>{
+
+  const allowedChanges= ["firstName","lastName","emailId","photoUrl","gender","age","about","skills"];
+
+  const isEditAllowed= Object.keys(req.body).every((field)=>allowedChanges.includes(field));
+
+  
+  const { age,gender,photoUrl,skills,about} = req.body;
+
+
+if(about.length>200){
+  throw new Error("about too big");
+}
+
+  if(age<18){
+    throw new Error("Minimum Age of 18 is required");
+  }
+  if(!(gender==="male"||gender==="female"||gender==="others")){
+    throw new Error("Gender can be male, female or others only !");
+  }
+  if(!validator.isURL(photoUrl)){
+    throw new Error("URL is not correct!");
+  }
+  if(skills.length>10){
+    throw new Error("Maximum of 10 skills");
+    
+  }
+  return isEditAllowed;
+
+  
+}
+
 module.exports={validateSignUpData,
-    validateLoginData
+    validateLoginData,
+    validateProfileEditData
 };
