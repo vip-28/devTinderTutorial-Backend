@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required:true,
+    index:true, // Efficiently searches the name
     minLength: 3,
   },
   lastName: {
@@ -16,6 +17,7 @@ const userSchema = new mongoose.Schema({
   emailId: {
     type: String,
     required:true,
+    //unique:true also creates indexes to optimize the search in the db - index:true 
     unique:true, 
     trim:true,
     validate(value){
@@ -83,7 +85,10 @@ userSchema.methods.validatePassword= async function(passwordInputByUser){
   return isPasswordValid;
 
 }
+userSchema.index({firstName:1 , lastName:1});
 
+
+//MODEL name always starts with capital letter User
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
