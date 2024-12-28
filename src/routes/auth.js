@@ -10,7 +10,7 @@ const authRouter = express.Router();
 
 authRouter.post("/signup", async (req, res) => {
   //encrypt the password
-  const { password, firstName, lastName, emailId, gender } = req.body;
+  const { password, firstName, lastName, emailId, gender,age } = req.body;
   const passwordHash = await bcrypt.hash(password, 10);
 
   //creating a new instance of the user model
@@ -18,6 +18,7 @@ authRouter.post("/signup", async (req, res) => {
     firstName,
     lastName,
     emailId,
+    age,
     gender,
     password: passwordHash,
   });

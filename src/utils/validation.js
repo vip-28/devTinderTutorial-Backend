@@ -30,7 +30,7 @@ const validateProfileEditData= (req)=>{
   const isEditAllowed= Object.keys(req.body).every((field)=>allowedChanges.includes(field));
 
   
-  const { age,gender,photoUrl,skills,about} = req.body;
+  const { age,gender,photoUrl,skills,about} = req?.body;
 
 
 if(about.length>200){

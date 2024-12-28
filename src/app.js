@@ -1,6 +1,5 @@
 const express = require("express");
 const connectDB = require("./config/database");
-const app = express();
 const cookieParser = require("cookie-parser");
 const cors= require("cors");
 
@@ -8,6 +7,11 @@ const authRouter= require("./routes/auth")
 const profileRouter= require("./routes/profile")
 const requestRouter= require("./routes/request");
 const userRouter = require("./routes/user");
+
+
+
+const app = express();
+
 //MiddleWares
 app.use(cors({
   //whitelisting domain name
@@ -16,6 +20,8 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+
+
 
 app.use("/", authRouter);
 app.use("/", profileRouter);
@@ -124,7 +130,7 @@ app.use("/", userRouter);
 connectDB()
   .then(() => {
     console.log("Database Connection Successful...");
-    app.listen(3000, () => console.log("successfully listening on port 3000"));
+    app.listen(3000, () => console.log("successfully listening on port 3000")); // starts server on estabishing database connection
   })
   .catch((err) => {
     console.error("can't connect to Database");
