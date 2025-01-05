@@ -8,6 +8,8 @@ const profileRouter= require("./routes/profile")
 const requestRouter= require("./routes/request");
 const userRouter = require("./routes/user");
 
+require("dotenv").config();
+
 
 
 const app = express();
@@ -130,7 +132,7 @@ app.use("/", userRouter);
 connectDB()
   .then(() => {
     console.log("Database Connection Successful...");
-    app.listen(3000, () => console.log("successfully listening on port 3000")); // starts server on estabishing database connection
+    app.listen(process.env.PORT, () => console.log("successfully listening on port 3000")); // starts server on estabishing database connection
   })
   .catch((err) => {
     console.error("can't connect to Database");
