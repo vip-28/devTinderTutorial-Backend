@@ -3,6 +3,8 @@ const User = require("../models/user");
 const ConnectionRequest = require("../models/connectionRequest");
 const { userAuth } = require("../middlewares/auth");
 
+const sendEmail = require("../utils/sendEmail")
+
 const requestRouter = express.Router();
 
 requestRouter.post(
@@ -50,6 +52,11 @@ requestRouter.post(
       });
       const data = await connectionRequest.save(); // so here we are calling .save() function and
       //a pre function will be called which will run some validations before saving the data on DB
+
+
+      const emailRes= await sendEmail.run();
+      console.log(emailRes);
+
 
       if (status == "interested") {
         res.json({
