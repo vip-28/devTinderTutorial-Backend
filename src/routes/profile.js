@@ -3,8 +3,17 @@ const { userAuth } = require("../middlewares/auth");
 const User = require("../models/user");
 const { validateProfileEditData } = require("../utils/validation");
 const bcrypt = require("bcrypt");
+const ConnectionRequest = require("../models/connectionRequest");
 
 const profileRouter = express.Router();
+
+profileRouter.get("/admin/logs", async (req, res) => {
+  const check = await ConnectionRequest.find({}).populate(
+    "fromUserId",
+    "firstName lastName age photoUrl about gender"
+  ).populate("toUserId", "firstName lastName age photoUrl about gender");
+  return res.send(check);
+});
 
 profileRouter.get("/profile/view", userAuth, async (req, res) => {
   try {
@@ -27,7 +36,9 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
 
     const loggedInUser = req?.user;
 
-    Object.keys(req?.body).forEach((key) => (loggedInUser[key] = req?.body[key]));
+    Object.keys(req?.body).forEach(
+      (key) => (loggedInUser[key] = req?.body[key])
+    );
 
     await loggedInUser.save();
     res.json({
@@ -51,22 +62,20 @@ profileRouter.patch("/profile/editPassword", userAuth, async (req, res) => {
       currentPassword
     );
     if (!reqPasswordValidation) {
-        throw new Error("Old password Didnt match");
+      throw new Error("Old password Didnt match");
     }
-      const passwordHash = await bcrypt.hash(newPassword, 10);
-      
-      user.password = passwordHash;
-     
-      user.save();
- 
+    const passwordHash = await bcrypt.hash(newPassword, 10);
 
-     
-      res.cookie("token",null,{
-        expires:new Date(Date.now())
-      })// for logging user out
-      res.send("Password Updated Successfully! Please Login Again with new Password");
+    user.password = passwordHash;
 
-  
+    user.save();
+
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
+    }); // for logging user out
+    res.send(
+      "Password Updated Successfully! Please Login Again with new Password"
+    );
   } catch (err) {
     res.status(400).send("Error: " + err.message);
   }

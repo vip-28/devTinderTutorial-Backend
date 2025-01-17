@@ -10,7 +10,7 @@ const userRouter = require("./routes/user");
 
 require("dotenv").config();
 
-
+require("./utils/cronjob");
 
 const app = express();
 
