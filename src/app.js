@@ -131,8 +131,8 @@ app.use("/", userRouter);
 
 connectDB()
   .then(() => {
-    console.log("Database Connection Successful...");
-    app.listen(process.env.PORT, () => console.log("successfully listening on port 3000")); // starts server on estabishing database connection
+    console.log("Database Connection Successful....");
+    app.listen(process.env.PORT, () => console.log("successfully listening on port "+process.env.PORT)); // starts server on estabishing database connection
   })
   .catch((err) => {
     console.error("can't connect to Database");

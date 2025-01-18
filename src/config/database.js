@@ -5,6 +5,4 @@ const connectDB = async () => {
     process.env.DB_CONNECTION_SECRET
   );
 };
-
-
 module.exports= connectDB;
