@@ -2,11 +2,13 @@ const express = require("express");
 const connectDB = require("./config/database");
 const cookieParser = require("cookie-parser");
 const cors= require("cors");
+const http= require("http");
 
 const authRouter= require("./routes/auth")
 const profileRouter= require("./routes/profile")
 const requestRouter= require("./routes/request");
 const userRouter = require("./routes/user");
+const initializeSocket = require("./utils/socket");
 
 require("dotenv").config();
 
@@ -129,10 +131,17 @@ app.use("/", userRouter);
 //   }
 // });
 
+
+
+const server = http.createServer(app)
+initializeSocket(server);
+
+
+
 connectDB()
   .then(() => {
     console.log("Database Connection Successful....");
-    app.listen(process.env.PORT, () => console.log("successfully listening on port "+process.env.PORT)); // starts server on estabishing database connection
+    server.listen(process.env.PORT, () => console.log("successfully listening on port "+process.env.PORT)); // starts server on estabishing database connection
   })
   .catch((err) => {
     console.error("can't connect to Database");
