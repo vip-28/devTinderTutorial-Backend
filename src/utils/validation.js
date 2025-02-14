@@ -11,7 +11,7 @@ const validateSignUpData = (req) => {
     throw new Error("Email Id is not correct!");
   }else if(!validator.isStrongPassword(password)){
     throw new Error("Password is not strong enough!");
-  }else if(!(gender==="male"||gender==="female"||gender==="others")){
+  }else if(!(gender==="male"||gender==="female"||gender==="others" || gender==="Male" || gender==="Female"|| gender==="Others")){
     throw new Error("Gender can be male, female or others only !");
   }
 };
@@ -40,7 +40,7 @@ if(about.length>200){
   if(age<18){
     throw new Error("Minimum Age of 18 is required");
   }
-  if(!(gender==="male"||gender==="female"||gender==="others")){
+  if(!(gender==="male"||gender==="female"||gender==="others" || gender==="Male" || gender==="Female"|| gender==="Others")){
     throw new Error("Gender can be male, female or others only !");
   }
   if(!validator.isURL(photoUrl)){

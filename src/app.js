@@ -8,7 +8,9 @@ const authRouter= require("./routes/auth")
 const profileRouter= require("./routes/profile")
 const requestRouter= require("./routes/request");
 const userRouter = require("./routes/user");
+const chatRouter= require("./routes/chat")
 const initializeSocket = require("./utils/socket");
+const paymentRouter = require("./routes/payment");
 
 require("dotenv").config();
 
@@ -17,7 +19,7 @@ require("./utils/cronjob");
 const app = express();
 
 //MiddleWares
-app.use(cors({
+app.use(cors({  
   //whitelisting domain name
     origin:"http://localhost:5173",
     credentials:true
@@ -31,6 +33,9 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use("/", chatRouter);
+app.use("/",paymentRouter);
+
 
 
 
