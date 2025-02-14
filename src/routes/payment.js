@@ -28,7 +28,6 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
     });
     //save in my DB
 
-    console.log(order);
     const payment = new Payment({
       userId: req.user._id,
       status: order.status,
@@ -60,6 +59,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     if (!isWebHookValid) {
       return res.status(400).json({ msg: "Invalid Webhook Signature" });
     }
+console.log("WEBHOOK CHECK");
 
 
     //update my payment status 
@@ -79,6 +79,8 @@ const paymentDetails=req.body.payload.payment.entity;
     user.membershipType=payment.notes.membershipType;
     await user.save();
 
+    console.log(user);
+    
 
     //return success response to razorpay
     // if (req.body.event == "payment.captured") {
