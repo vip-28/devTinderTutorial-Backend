@@ -104,5 +104,5 @@ userSchema.index({ firstName: 1, lastName: 1 });
 
 //MODEL name always starts with capital letter User
 const User = mongoose.model("User", userSchema);
-
+  
 module.exports = User;
